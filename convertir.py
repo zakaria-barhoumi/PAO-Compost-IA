@@ -4,8 +4,8 @@ import os
 CLASS_MAP = {
     'Dgrx': 0,
     'Mrisq': 1,
-    'NonCompsot': 2,
-    'Compsot': 3
+    'NonCompost': 2,
+    'Compost': 3
 }
 
 
