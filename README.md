@@ -1,4 +1,4 @@
-#Projet Compost IA
+# Projet Compost IA
 
 Ce projet, nommé *Compost IA, est réalisé dans le cadre d'un cursus à l'*[INSA Rouen Normandie](https://www.insa-rouen.fr/).
 
