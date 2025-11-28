@@ -1,0 +1,7 @@
+names:
+  0: Dgrx
+  1: Mrisq
+  2: NonCompost
+  3: Compost
+path: .
+train: train.txt
