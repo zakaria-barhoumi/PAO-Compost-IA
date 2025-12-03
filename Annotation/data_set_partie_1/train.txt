@@ -1,0 +1,15 @@
+data/images/train/IMG_20251107_094546.jpg
+data/images/train/IMG_20251107_094552.jpg
+data/images/train/IMG_20251107_094557.jpg
+data/images/train/IMG_20251107_094606.jpg
+data/images/train/IMG_20251107_094630.jpg
+data/images/train/IMG_20251107_094640.jpg
+data/images/train/IMG_20251107_094650.jpg
+data/images/train/IMG_20251107_094655.jpg
+data/images/train/IMG_20251107_094707.jpg
+data/images/train/IMG_20251107_094713.jpg
+data/images/train/IMG_20251107_094724.jpg
+data/images/train/IMG_20251107_094733.jpg
+data/images/train/IMG_20251107_094747.jpg
+data/images/train/IMG_20251107_094756.jpg
+data/images/train/IMG_20251107_094800.jpg
