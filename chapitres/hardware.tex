@@ -1,0 +1,51 @@
+\chapter{Conception Matérielle et Intégration Système}
+
+\section{Configuration du Système}
+Le setup matériel constitue le socle physique de notre solution de tri. Il a été conçu pour répondre aux contraintes d'un environnement industriel tout en restant sur une architecture embarquée de type "Edge" :
+\begin{itemize}
+    \item \textbf{Unité de Calcul :} L'intelligence du système repose sur une carte \textbf{Raspberry Pi}, choisie pour sa polyvalence et son interface GPIO, malgré les défis de performance rencontrés.
+    \item \textbf{Capture Vidéo :} Un module caméra Raspberry Pi haute résolution est monté en surplomb du convoyeur pour une analyse zénithale constante.
+    \item \textbf{Éclairage Industriel :} Un éclairage LED contrôlé a été intégré pour neutraliser les variations de lumière ambiante et minimiser les ombres portées, facteurs critiques pour la précision de la détection d'objets.
+\end{itemize}
+
+\section{Interface Utilisateur (IHM) et Développement Software}
+L'interface utilisateur est l'élément qui permet de transformer un algorithme abstrait en un outil de décision concret pour l'opérateur.
+
+\subsection{Phase de recherche et choix technologiques}
+Dans la première phase du projet, notre travail s'est concentré sur la recherche de modèles de détection déjà entraînés afin d'évaluer rapidement la pertinence de l'approche YOLO sur notre problématique de tri. C'est lors de cette phase de veille que nous avons découvert des implémentations utilisant la bibliothèque \textbf{Streamlit}. 
+
+Plutôt que de développer une interface lourde en Qt ou en HTML/JS, nous avons pris le parti de nous inspirer de cette approche. Nous avons conservé la structure principale de Streamlit tout en la modifiant profondément pour l'adapter à nos besoins spécifiques.
+
+\subsection{Les atouts de Streamlit pour le projet}
+L'adoption de Streamlit a offert plusieurs avantages stratégiques :
+\begin{itemize}
+    \item \textbf{Réactivité en temps réel :} La capacité de Streamlit à rafraîchir dynamiquement les composants Python permet une visualisation fluide du flux vidéo.
+    \item \textbf{Flexibilité du prototypage :} La facilité d'ajout de widgets (sliders, boutons) nous a permis d'itérer très rapidement sur l'interface.
+    \item \textbf{Légèreté logicielle :} Contrairement à des frameworks web classiques, Streamlit ne nécessite pas de serveur complexe, ce qui est idéal pour les ressources limitées de la Raspberry Pi.
+\end{itemize}
+
+\subsection{Fonctionnalités avancées implémentées}
+Nous avons développé des modules spécifiques pour augmenter les capacités du système :
+\begin{itemize}
+    \item \textbf{Réglage du taux de confiance :} Nous avons intégré un slider permettant de modifier le seuil de détection (\textit{Confidence Threshold}) à la volée. Cela permet à l'utilisateur de trouver le compromis optimal entre détections manquées et fausses alertes selon la nature du flux de déchets.
+    \item \textbf{Module d'acquisition de données :} Pour faciliter l'amélioration future du modèle, nous avons implémenté une fonction de prise de vue à intervalle régulier. 
+    \item \textbf{Génération de labels automatisée :} À chaque capture, le système enregistre automatiquement les coordonnées des \textit{bounding boxes} dans un fichier \texttt{.txt} associé au format YOLO. Cela transforme l'outil de tri en une véritable station de collecte de données labellisées.
+\end{itemize}
+
+\section{Défis d'Intégration et Réalité Matérielle}
+L'étape de déploiement effectif sur la Raspberry Pi a été le moment où les difficultés concrètes se sont manifestées.
+
+\subsection{Problématiques d'OS et de Dépendances}
+Le portage du code depuis nos machines de développement vers l'environnement de la Raspberry Pi a été complexe. Nous avons fait face à :
+\begin{itemize}
+    \item \textbf{Incompatibilité logicielle :} L'OS de la Raspberry Pi (architecture ARM) a présenté des conflits majeurs avec certaines versions de bibliothèques de vision par ordinateur.
+    \item \textbf{Co-dépendances critiques :} La gestion des bibliothèques liées au modèle (comme TensorFlow Lite ou PyTorch) et leurs dépendances système a nécessité de nombreuses phases de débogage pour stabiliser l'environnement.
+\end{itemize}
+
+\subsection{Performance et Limitations Système}
+Bien que nous ayons réussi à implémenter le système, l'expérience a montré que la puissance de calcul de la Raspberry Pi reste un goulot d'étranglement :
+\begin{itemize}
+    \item \textbf{Instabilité liée au modèle :} En fonction de la version du modèle YOLO utilisée, le système peut devenir instable ou "bugger". La puissance de la carte est parfois insuffisante pour traiter l'inférence en temps réel de manière parfaitement fluide.
+    \item \textbf{Compromis Précision/Vitesse :} Ce manque de puissance nous oblige à faire des choix entre la profondeur du modèle (précision) et la rapidité d'exécution, le système atteignant ses limites physiques lors de pics de détection.
+\end{itemize}
+Malgré ces limites matérielles, le prototype démontre la viabilité du concept et souligne la nécessité de passer, pour une version industrielle, vers des accélérateurs matériels plus performants.

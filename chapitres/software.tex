@@ -1,0 +1,24 @@
+\chapter{Architecture Logicielle et Intelligence Artificielle}
+
+Notre approche repose sur le Deep Learning. Cette partie se décompose en la préparation des données, l'annotation et l'entraînement.
+
+\section{Préparation du Dataset}
+Nous avons constitué une base d'images représentative de la station de tri. Le dataset est divisé en deux :
+\begin{itemize}
+    \item \textbf{Train :} Images pour l'apprentissage.
+    \item \textbf{Val :} Images pour la validation (éviter le sur-apprentissage).
+\end{itemize}
+
+\section{Annotation des Données}
+Chaque objet a été encadré et labellisé. Le fichier de configuration \texttt{data.yaml} structure notre dataset ainsi :
+
+\begin{lstlisting}[language=bash, caption=Configuration du Dataset (data.yaml)]
+train: dataset/images/train
+val: dataset/images/val
+
+nc: 4
+names: ['Dgrx', 'Mrisq', 'NonCompsot', 'Compsot']
+\end{lstlisting}
+
+\section{Entraînement du Modèle}
+Nous avons opté pour une architecture YOLO pour sa rapidité. Le modèle apprend à minimiser la fonction de perte combinant la localisation de la boîte et la classification du déchet.

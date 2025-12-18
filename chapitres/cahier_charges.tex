@@ -1,0 +1,64 @@
+\chapter{Cahier des Charges Fonctionnel et Technique}
+
+% 1. INTRODUCTION
+\section{Introduction}
+Ce document formalise les besoins exprimés par le client, David, concernant l'automatisation du tri dans sa station de compostage. Le projet vise à concevoir un prototype capable de sécuriser la production de compost en identifiant les contaminants en temps réel sur un convoyeur. Ce cahier des charges servira de référence pour la validation finale du système.
+
+% 2. DESCRIPTION DU PROJET
+\section{Description du Projet}
+Le système envisagé est une solution de vision par ordinateur ("Computer Vision") couplée à un système embarqué.
+\begin{itemize}
+    \item \textbf{Entrée :} Flux vidéo d'une caméra surplombant les déchets.
+    \item \textbf{Traitement :} Analyse des images par Intelligence Artificielle pour détecter et localiser les objets.
+    \item \textbf{Sortie :} Signalisation visuelle pour l'opérateur et signal électronique pour piloter un actionneur (arrêt machine ou éjection).
+\end{itemize}
+L'objectif final est de réduire drastiquement la présence d'éléments dangereux (`Dgrx`) et risqués (`Mrisq`) dans le broyeur.
+
+% 3. EXIGENCES FONCTIONNELLES
+\section{Exigences Fonctionnelles}
+Les fonctions principales que le système doit remplir sont les suivantes :
+
+\subsection*{F1. Acquisition et Détection}
+\begin{itemize}
+    \item Le système doit acquérir des images en continu depuis le convoyeur.
+    \item Il doit détecter et classifier les objets selon 4 catégories : \textbf{Dgrx} (Dangereux), \textbf{Mrisq} (Mécaniquement Risqué), \textbf{NonCompost} (Plastiques/Inertes), et \textbf{Compost} (Organique).
+\end{itemize}
+
+\subsection*{F2. Interface Utilisateur (IHM)}
+\begin{itemize}
+    \item Affichage du flux vidéo en temps réel avec les cadres de détection (Bounding Boxes).
+    \item Affichage de la classe prédite et du score de confiance (\%).
+    \item Alerte visuelle claire (écran rouge ou clignotant) lors de la détection d'un déchet critique.
+\end{itemize}
+
+\subsection*{F3. Interaction Matérielle}
+\begin{itemize}
+    \item En cas de détection positive de `Dgrx` ou `Mrisq`, le système doit envoyer un signal logique (High/Low) via une sortie physique (GPIO/Série) en moins de 500ms.
+\end{itemize}
+
+% 4. EXIGENCES NON FONCTIONNELLES
+\section{Exigences Non Fonctionnelles}
+Ces exigences définissent la qualité du service rendu.
+
+\begin{itemize}
+    \item \textbf{Performance (Temps Réel) :} Le traitement doit s'effectuer à une cadence minimale de 10 FPS (Images par seconde) pour suivre le flux du convoyeur.
+    \item \textbf{Fiabilité (Sécurité) :} Le taux de faux négatifs pour la classe `Dgrx` (rater une pile) doit tendre vers 0\%. Il est préférable d'avoir des faux positifs (arrêter la machine pour rien) que de laisser passer un danger.
+    \item \textbf{Robustesse :} Le modèle doit rester performant malgré les variations légères de luminosité ou la superposition partielle des déchets.
+\end{itemize}
+
+% 5. CONTRAINTES
+\section{Contraintes}
+\begin{itemize}
+    \item \textbf{Environnementales :} Le matériel doit résister à un environnement industriel (poussière, vibrations potentielles).
+    \item \textbf{Matérielles :} La solution doit tourner sur une carte embarquée ou un PC standard sans nécessiter de serveur de calcul distant (Edge Computing).
+    \item \textbf{Temporelles :} Le prototype fonctionnel doit être livré avant la soutenance finale en Janvier.
+\end{itemize}
+
+% 6. PLAN DE PROJET
+\section{Plan de Projet}
+Le développement suit une méthodologie agile itérative découpée en trois phases majeures :
+\begin{enumerate}
+    \item \textbf{Phase 1 (Data et Software) :} Collecte du dataset, annotation, entraînement du modèle YOLO et validation des performances logicielles.
+    \item \textbf{Phase 2 (Hardware) :} Montage du banc de test, configuration de la caméra et des éclairages, développement du script de communication.
+    \item \textbf{Phase 3 (Intégration) :} Fusion des deux parties, tests en conditions réelles et ajustements finaux (Fine-tuning).
+\end{enumerate}
